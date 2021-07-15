@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="purchase_request_form_view">
+            <field name="name">Purchase Request</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Request">
+                    <header>
+                        <button name="submit_for_approval_action" type="object" states="draft" string="Submit for Approval" class="oe_highlight"/>
+                        <button name="approve_action" type="object" states="to_be_approved" string="Approve" class="oe_highlight"/>
+                        <button name="open_rejection_reason_wizard" type="object" states="to_be_approved" string="Reject" class="oe_highlight"/>
+                        <button name="reset_to_draft_action" type="object" states="cancel" string="Reset to draft" class="oe_highlight"/>
+                        <button name="cancel_action" type="object" states="draft" string="Cancel" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,to_be_approved,approve,reject,cancel"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly': [('state', 'in', ['approve','reject','cancel'])]}"/>
+                                <field name="requested_by" attrs="{'readonly': [('state', 'in', ['approve','reject','cancel'])]}"/>
+                            </group>
+                            <group>
+                                <field name="start_date" attrs="{'readonly': [('state', 'in', ['approve','reject','cancel'])]}"/>
+                                <field name="end_date" attrs="{'readonly': [('state', 'in', ['approve','reject','cancel'])]}"/>
+                            </group>
+                            <group>
+                               <field name="rejection_reason" attrs="{ 'invisible':[('state','!=','reject')] }"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lines">
+                                <field name="order_line" attrs="{'readonly': [('state', 'in', ['approve','reject','cancel'])]}">
+                                    <tree editable="bottom" >
+                                        <field name="product_id"/>
+                                        <field name="description"/>
+                                        <field name="cost_price"/>
+                                        <field name="quantity"/>
+                                        <field name="sub_total"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="total_price"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="purchase_request_action">
+            <field name="name">Purchase Request</field>
+            <field name="res_model">purchase.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="purchase_request_menu_item" name="Purchase Request"
+                  parent="purchase.menu_procurement_management" action="purchase_request_action"/>
+
+    </data>
+</odoo>

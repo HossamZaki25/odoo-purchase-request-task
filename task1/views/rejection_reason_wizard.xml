@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="rejection_reason_wizard_view">
+        <field name="name">rejection.reason</field>
+        <field name="model">purchase.request.rejection</field>
+        <field name="arch" type="xml">
+            <form string="Rejection Reason">
+                <group>
+                    <field name="rejection_reason"/>
+                </group>
+                <footer>
+                    <button name="confirm_rejection_reason" type="object" string="Confirm" class="oe_highlight"/>
+                    or
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
